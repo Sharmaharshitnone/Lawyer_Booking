@@ -1,0 +1,61 @@
+.speciality-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
+}
+
+.speciality-section h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.speciality-section p {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-size: 15px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.speciality-container {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  flex-wrap: wrap;
+}
+
+.speciality-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.speciality-card:hover {
+  transform: translateY(-8px);
+}
+
+.icon-circle {
+  width: 90px;
+  height: 90px;
+  background: #eaf0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.icon-circle span {
+  font-size: 34px;
+}
+
+.speciality-card h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}

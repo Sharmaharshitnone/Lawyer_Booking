@@ -1,0 +1,40 @@
+.lawyer-filter {
+  width: 260px;
+  padding: 16px;
+}
+
+.filter-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+.lawyer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lawyer-item {
+  padding: 11px 15px;
+  margin-bottom: 12px;
+  border: 1px solid #dbe3ff;
+  border-radius: 7px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.lawyer-item:hover {
+  background-color: #eef2ff;
+  border-color: #6366f1;
+}
+
+.lawyer-item.active {
+  background-color: #4f46e5;
+  color: #ffffff;
+  border-color: #4f46e5;
+}

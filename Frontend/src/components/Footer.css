@@ -1,0 +1,80 @@
+/* Footer main container */
+.footer {
+  background-color: #0b0b0b; /* pure black */
+  color: #ffffff;
+  padding: 50px 80px;
+  width: 100%;
+}
+
+/* Footer layout */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* Left section */
+.footer-left h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.footer-left p {
+  font-size: 14px;
+  color: #cfcfcf;
+  max-width: 350px;
+  line-height: 1.6;
+}
+
+/* Icons */
+.footer-icons {
+  margin-top: 15px;
+}
+
+.footer-icons span {
+  font-size: 20px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+/* Right FAQ section */
+.footer-right {
+  width: 55%;
+}
+
+.faq-item {
+  border-bottom: 1px solid #333;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-item h4 {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.faq-item span {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-right {
+    width: 100%;
+  }
+}
+.footer-bottom {
+  text-align: center;
+  padding: 12px 10px;
+  font-size: 14px;
+  color: #cbd5e1;
+  border-top: 1px solid #334155;
+  margin-top: 30px;
+}
