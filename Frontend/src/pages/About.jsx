@@ -3,10 +3,10 @@ import { Scale, Users, Award, Target, Heart, Shield, ArrowRight, CheckCircle2, Q
 
 const About = () => {
   const team = [
-    { name: "Alexandra Chen", role: "CEO & Founder", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex", bio: "Former BigLaw partner with 15+ years experience" },
-    { name: "Marcus Johnson", role: "CTO", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=marcus", bio: "Tech veteran from Google & Stripe" },
-    { name: "Priya Sharma", role: "Head of Legal", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=priya", bio: "Harvard Law, specializes in legal tech" },
-    { name: "David Kim", role: "Head of Operations", image: "https://api.dicebear.com/7.x/avataaars/svg?seed=david", bio: "Scaled 3 startups to Series B" },
+    { name: "Prof. Amar Paul Singh", role: "Project Guide", image: "/lawyer1.png", bio: "Mentoring the team to build scalable and efficient solutions." },
+    { name: "Mayank Bansal", role: "Team Member", image: "/lawyer5.png", bio: "Full Stack Developer passionate about legal tech innovation." },
+    { name: "Piyush Sharma", role: "Team Member", image: "/lawyer3.png", bio: "Frontend specialist focused on creating intuitive user experiences." },
+    { name: "Ashruf Khan", role: "Team Member", image: "/lawyer6.png", bio: "Backend developer ensuring secure and robust system architecture." },
   ];
 
   const values = [
@@ -17,10 +17,10 @@ const About = () => {
   ];
 
   const milestones = [
-    { year: "2020", title: "Founded", description: "Started with a mission to democratize legal services" },
-    { year: "2021", title: "1,000 Lawyers", description: "Reached our first major milestone in lawyer partnerships" },
-    { year: "2023", title: "Series A", description: "Raised $12M to expand nationwide" },
-    { year: "2025", title: "500K+ Users", description: "Helping half a million people find legal help" },
+    { year: "2025", title: "Project Inception", description: "Started as a final year college project idea" },
+    { year: "2025", title: "Research Phase", description: "Analyzed the legal tech market and user needs" },
+    { year: "2026", title: "Development", description: "Building the core platform with modern tech stack" },
+    { year: "2026", title: "Launch", description: "Releasing the beta version for user testing" },
   ];
 
   return (
@@ -32,15 +32,15 @@ const About = () => {
           <div className="text-center max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-sm text-blue-200 mb-6 border border-white/10">
               <Scale className="w-4 h-4" />
-              <span>About LegalEase</span>
+              <span>College Project Presentation</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
               Making Legal Services <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Accessible to Everyone</span>
             </h1>
             <p className="text-lg text-slate-300 leading-relaxed">
-              We believe everyone deserves access to quality legal representation. 
-              Our platform connects you with verified, experienced lawyers who are ready to help.
+              Nyay Booker is a comprehensive legal services platform developed as a college project.
+              Our goal is to demonstrate how technology can bridge the gap between clients and legal professionals.
             </p>
           </div>
         </div>
@@ -53,15 +53,15 @@ const About = () => {
             <div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                At LegalEase, we're on a mission to bridge the gap between people seeking legal help and qualified attorneys. 
-                The traditional process of finding a lawyer is broken – it's confusing, time-consuming, and often intimidating.
+                At Nyay Booker, we're on a mission to simplify legal access. This project was born out of the realization
+                that finding the right lawyer is often a complex and intimidating process for many people.
               </p>
               <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                We've built a platform that makes it simple to find, compare, and book appointments with lawyers who specialize 
-                in exactly what you need. No more cold calls, no more guesswork.
+                Under the guidance of our mentor, we've built a demonstration platform that features lawyer discovery,
+                appointment booking, and secure communication channels.
               </p>
               <div className="space-y-3">
-                {["Vetted & verified legal professionals", "Transparent pricing & reviews", "Secure communication channels", "24/7 booking availability"].map((item, idx) => (
+                {["Student-led initiative", "Modern technology stack", "User-centric design", "Scalable architecture"].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-gray-700">{item}</span>
@@ -73,13 +73,15 @@ const About = () => {
               <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white">
                 <Quote className="w-12 h-12 text-white/30 mb-4" />
                 <p className="text-xl font-medium mb-6 leading-relaxed">
-                  "Justice should not be a privilege of the wealthy. We're democratizing access to legal expertise for everyone."
+                  "Technology has the power to make justice more accessible. This project is a step towards that future."
                 </p>
                 <div className="flex items-center gap-4">
-                  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=alex" alt="CEO" className="w-12 h-12 rounded-full border-2 border-white/30" />
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-xl font-bold">
+                    NB
+                  </div>
                   <div>
-                    <p className="font-semibold">Alexandra Chen</p>
-                    <p className="text-blue-200 text-sm">CEO & Founder</p>
+                    <p className="font-semibold">Nyay Booker Team</p>
+                    <p className="text-blue-200 text-sm">College Project 2024-25</p>
                   </div>
                 </div>
               </div>
@@ -92,8 +94,8 @@ const About = () => {
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Core Values</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">The principles that guide everything we do at LegalEase.</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Core Values</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">The academic and ethical principles guiding our project development.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, idx) => {
@@ -116,8 +118,8 @@ const About = () => {
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Our Journey</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">From a simple idea to a platform trusted by hundreds of thousands.</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Project Journey</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">From concept to code: our development timeline.</p>
           </div>
           <div className="relative">
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 hidden lg:block" />
@@ -144,8 +146,8 @@ const About = () => {
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Meet Our Leadership</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">A team of legal experts and tech innovators working to transform the industry.</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">The Project Team</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Meet the students and mentor behind this project.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member, idx) => (

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, Scale, Clock, Shield, Star, CheckCircle2, Briefcase, Award, TrendingUp, HeartHandshake } from 'lucide-react';
-import lawyer_booking from "../assets/lawyer_booking.webp";
+import lawyer_booking from "../assets/lawyer_booking.png";
 import Speciality from "./Speciality";
 import Cards from "./Cards";
 
@@ -70,7 +70,7 @@ const Home = () => {
         {/* Background gradient orb */}
         <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-[radial-gradient(circle,rgba(96,165,250,0.15)_0%,transparent_70%)] animate-pulse" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        
+
         <div className="relative z-10 max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           {/* Left Content */}
           <div className="flex-1 text-center lg:text-left">
@@ -78,16 +78,16 @@ const Home = () => {
               <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
               <span>Trusted by 10,000+ clients nationwide</span>
             </div>
-            
+
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight bg-gradient-to-br from-slate-50 to-blue-400 bg-clip-text text-transparent mb-6">
               Find Your Perfect <br className="hidden sm:block" />
               Legal Expert
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-              Connect with verified, top-rated lawyers specializing in your legal needs. 
+              Connect with verified, top-rated lawyers specializing in your legal needs.
               Book consultations instantly and get the justice you deserve.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link to="/lawyers" className="group px-8 py-4 text-base sm:text-lg font-bold rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 shadow-lg shadow-amber-500/40 hover:from-amber-500 hover:to-amber-600 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2">
                 Find a Lawyer
@@ -118,10 +118,10 @@ const Home = () => {
           {/* Right Image */}
           <div className="flex-1 flex justify-center w-full max-w-md lg:max-w-none">
             <div className="relative">
-              <img 
-                src={lawyer_booking} 
-                alt="Legal Consultation" 
-                className="w-full max-w-sm lg:max-w-md rounded-2xl shadow-2xl border-2 border-blue-400/30 hover:scale-[1.02] transition-transform duration-500"
+              <img
+                src={lawyer_booking}
+                alt="Legal Consultation"
+                className="w-full h-auto rounded-3xl shadow-2xl border-2 border-blue-400/30 hover:scale-[1.02] transition-transform duration-500"
               />
               {/* Floating Badge */}
               <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 bg-white rounded-xl p-3 sm:p-4 shadow-xl">
@@ -144,7 +144,7 @@ const Home = () => {
       <section className="px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Choose LegalEase?</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Choose Nyay Booker?</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">Everything you need to find, connect, and work with the perfect legal professional.</p>
           </div>
 
@@ -152,7 +152,7 @@ const Home = () => {
             {bentoItems.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div 
+                <div
                   key={idx}
                   className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl p-4 sm:p-6 bg-gradient-to-br ${item.gradient} text-white cursor-pointer hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl ${item.className}`}
                 >
@@ -163,7 +163,7 @@ const Home = () => {
                     </div>
                     <h3 className={`font-bold mb-1 sm:mb-2 ${item.size === 'large' ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg'}`}>{item.title}</h3>
                     <p className={`text-white/80 ${item.size === 'large' ? 'text-sm sm:text-base' : 'text-xs sm:text-sm'} line-clamp-3`}>{item.description}</p>
-                    
+
                     {item.size === 'large' && (
                       <Link to="/lawyers" className="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-semibold text-white/90 hover:text-white group/link">
                         Browse Lawyers
@@ -171,7 +171,7 @@ const Home = () => {
                       </Link>
                     )}
                   </div>
-                  
+
                   {/* Decorative circle */}
                   <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-white/10 rounded-full" />
                 </div>
@@ -203,7 +203,7 @@ const Home = () => {
 
       <Speciality />
       <Cards />
-    </> 
+    </>
   );
 };
 

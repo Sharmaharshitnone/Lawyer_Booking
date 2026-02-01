@@ -2,14 +2,14 @@ import { Search, MapPin, Briefcase, Trophy, DollarSign, Clock, BookOpen, X } fro
 import { DualRangeSlider } from './DualRangeSlider';
 
 const locations = [
-  'Mumbai, MH',
-  'Delhi, DL',
-  'Bangalore, KA',
-  'Hyderabad, TG',
-  'Chennai, TN',
-  'Kolkata, WB',
-  'Pune, MH',
-  'Ahmedabad, GJ'
+  'Bilaspur, HP',
+  'Shimla, HP',
+  'Mandi, HP',
+  'Kangra, HP',
+  'Dharamshala, HP',
+  'Kullu, HP',
+  'Solan, HP',
+  'Hamirpur, HP'
 ];
 
 const specialties = [
@@ -49,7 +49,7 @@ export function FilterSidebar({ filters, setFilters, totalResults }) {
     });
   };
 
-  const hasActiveFilters = 
+  const hasActiveFilters =
     filters.search ||
     filters.locations.length > 0 ||
     filters.specialties.length > 0 ||

@@ -27,8 +27,9 @@ const Speciality = () => {
           {specialties.map((item, index) => {
             const IconComponent = item.icon;
             return (
-              <Link 
-                to="/All_lawyer" 
+              <Link
+                to="/All_lawyer"
+                state={{ specialty: item.name }}
                 key={index}
                 className="group flex flex-col items-center p-6 bg-gray-50 rounded-xl hover:bg-blue-50 hover:shadow-md transition-all duration-300 cursor-pointer"
               >

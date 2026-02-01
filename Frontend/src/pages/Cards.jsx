@@ -20,7 +20,7 @@ const lawyers = [
     name: "Adv. Neha Verma",
     type: "Family Lawyer",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&q=80",
-    cover: "https://images.unsplash.com/photo-1505664194779-8beaceb930b5?w=600&h=300&fit=crop",
+    cover: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=300&fit=crop",
     available: true,
     rating: 4.9,
     cases: 120,
@@ -68,26 +68,25 @@ const LawyerCard = ({ lawyer }) => {
     <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
       {/* Header with cover image */}
       <div className="relative">
-        <div 
+        <div
           className="h-32 bg-cover bg-center"
           style={{ backgroundImage: `url(${lawyer.cover || lawyer.image})` }}
         />
-        
+
         {/* Status Badge */}
-        <span className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${
-          lawyer.available 
-            ? 'bg-green-100 text-green-800' 
-            : 'bg-red-100 text-red-800'
-        }`}>
+        <span className={`absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${lawyer.available
+          ? 'bg-green-100 text-green-800'
+          : 'bg-red-100 text-red-800'
+          }`}>
           <span className={`w-2 h-2 rounded-full ${lawyer.available ? 'bg-green-500' : 'bg-red-500'}`} />
           {lawyer.available ? 'Available' : 'Booked'}
         </span>
 
         {/* Avatar */}
-        <img 
-          className="absolute left-1/2 -translate-x-1/2 -bottom-10 w-20 h-20 rounded-full object-cover border-4 border-white shadow-md" 
-          src={lawyer.image} 
-          alt={lawyer.name} 
+        <img
+          className="absolute left-1/2 -translate-x-1/2 -bottom-10 w-20 h-20 rounded-full object-cover border-4 border-white shadow-md"
+          src={lawyer.image}
+          alt={lawyer.name}
         />
       </div>
 
@@ -99,7 +98,7 @@ const LawyerCard = ({ lawyer }) => {
         </div>
 
         <p className="text-gray-600 text-sm text-center mb-4 line-clamp-2">{lawyer.about}</p>
-        
+
         {/* Contact Info */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -136,7 +135,7 @@ const LawyerCard = ({ lawyer }) => {
             </div>
           </div>
         </div>
-        
+
         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
           Book Consultation
         </button>

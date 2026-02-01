@@ -37,9 +37,9 @@ const Signup = () => {
       <div className="relative w-full max-w-5xl grid lg:grid-cols-2 gap-8 items-center">
         {/* Left - Benefits (hidden on mobile) */}
         <div className="hidden lg:block text-white p-8">
-          <h2 className="text-4xl font-bold mb-4">Join LegalEase Today</h2>
+          <h2 className="text-4xl font-bold mb-4">Join Nyay Booker Today</h2>
           <p className="text-slate-300 text-lg mb-8">Connect with experienced lawyers and get the legal help you deserve.</p>
-          
+
           <div className="space-y-4">
             {benefits.map((benefit, idx) => (
               <div key={idx} className="flex items-center gap-3">
@@ -59,7 +59,7 @@ const Signup = () => {
                 <p className="text-sm text-slate-400">Business Owner</p>
               </div>
             </div>
-            <p className="text-slate-300 italic">"LegalEase made finding the right lawyer so easy. The whole process was seamless and professional."</p>
+            <p className="text-slate-300 italic">"Nyay Booker made finding the right lawyer so easy. The whole process was seamless and professional."</p>
           </div>
         </div>
 
@@ -84,11 +84,10 @@ const Signup = () => {
                     key={role.id}
                     type="button"
                     onClick={() => setState(role.id)}
-                    className={`relative p-2.5 rounded-xl border-2 transition-all duration-200 ${
-                      state === role.id
-                        ? "border-blue-500 bg-blue-50 shadow-md"
-                        : "border-gray-200 bg-gray-50 hover:border-gray-300"
-                    }`}
+                    className={`relative p-2.5 rounded-xl border-2 transition-all duration-200 ${state === role.id
+                      ? "border-blue-500 bg-blue-50 shadow-md"
+                      : "border-gray-200 bg-gray-50 hover:border-gray-300"
+                      }`}
                   >
                     <Icon className={`w-5 h-5 mx-auto mb-0.5 ${state === role.id ? "text-blue-600" : "text-gray-500"}`} />
                     <p className={`text-xs font-semibold ${state === role.id ? "text-blue-700" : "text-gray-700"}`}>{role.label}</p>
@@ -110,11 +109,11 @@ const Signup = () => {
                 <label className="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input 
+                  <input
                     type="text" name="name" value={formData.name} onChange={handleChange}
-                    placeholder="John Doe" 
+                    placeholder="John Doe"
                     className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white outline-none transition-all"
-                    required 
+                    required
                   />
                 </div>
               </div>
@@ -123,11 +122,11 @@ const Signup = () => {
                 <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input 
+                  <input
                     type="email" name="email" value={formData.email} onChange={handleChange}
-                    placeholder="you@example.com" 
+                    placeholder="you@example.com"
                     className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white outline-none transition-all"
-                    required 
+                    required
                   />
                 </div>
               </div>
@@ -137,11 +136,11 @@ const Signup = () => {
               <label className="block text-xs font-medium text-gray-700 mb-1">Phone Number</label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input 
+                <input
                   type="tel" name="phone" value={formData.phone} onChange={handleChange}
-                  placeholder="+1 (555) 000-0000" 
+                  placeholder="+1 (555) 000-0000"
                   className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white outline-none transition-all"
-                  required 
+                  required
                 />
               </div>
             </div>
@@ -152,11 +151,11 @@ const Signup = () => {
                   <label className="block text-xs font-medium text-blue-700 mb-1">Bar Registration No.</label>
                   <div className="relative">
                     <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400" />
-                    <input 
+                    <input
                       type="text" name="barNumber" value={formData.barNumber} onChange={handleChange}
-                      placeholder="BAR-XXXXX" 
+                      placeholder="BAR-XXXXX"
                       className="w-full pl-9 pr-3 py-2.5 text-sm bg-white border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      required 
+                      required
                     />
                   </div>
                 </div>
@@ -164,7 +163,7 @@ const Signup = () => {
                   <label className="block text-xs font-medium text-blue-700 mb-1">Specialization</label>
                   <div className="relative">
                     <Scale className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400" />
-                    <select 
+                    <select
                       name="specialization" value={formData.specialization} onChange={handleChange}
                       className="w-full pl-9 pr-3 py-2.5 text-sm bg-white border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none"
                       required
@@ -186,11 +185,11 @@ const Signup = () => {
                 <label className="block text-xs font-medium text-gray-700 mb-1">Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input 
+                  <input
                     type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     className="w-full pl-9 pr-10 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white outline-none transition-all"
-                    required 
+                    required
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -202,11 +201,11 @@ const Signup = () => {
                 <label className="block text-xs font-medium text-gray-700 mb-1">Confirm Password</label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input 
+                  <input
                     type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white outline-none transition-all"
-                    required 
+                    required
                   />
                 </div>
               </div>
@@ -219,7 +218,7 @@ const Signup = () => {
               </label>
             </div>
 
-            <button 
+            <button
               type="submit"
               className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
             >

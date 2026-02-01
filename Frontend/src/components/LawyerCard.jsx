@@ -11,8 +11,8 @@ export function LawyerCard({ lawyer }) {
     <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow overflow-hidden">
       <div className="p-6">
         <div className="flex items-start gap-4 mb-4">
-          <img 
-            src={lawyer.image} 
+          <img
+            src={lawyer.image}
             alt={lawyer.name}
             className="w-20 h-20 rounded-full object-cover"
           />
@@ -37,17 +37,17 @@ export function LawyerCard({ lawyer }) {
             <MapPin className="w-4 h-4 text-gray-400" />
             <span>{lawyer.location}</span>
           </div>
-          
+
           <div className="flex items-center gap-2 text-sm text-gray-700">
             <Briefcase className="w-4 h-4 text-gray-400" />
             <span>{lawyer.experience} years experience</span>
           </div>
-          
+
           <div className="flex items-center gap-2 text-sm text-gray-700">
             <Trophy className="w-4 h-4 text-gray-400" />
             <span>{lawyer.casesWon} cases won</span>
           </div>
-          
+
           <div className="flex items-center gap-2 text-sm text-gray-700">
             <DollarSign className="w-4 h-4 text-gray-400" />
             <span>₹{lawyer.avgCostPerCase.toLocaleString('en-IN')} avg. per case</span>
@@ -58,7 +58,7 @@ export function LawyerCard({ lawyer }) {
           <p className="text-xs text-gray-500 mb-2">Specialties</p>
           <div className="flex flex-wrap gap-2">
             {lawyer.specialty.map((spec, index) => (
-              <span 
+              <span
                 key={index}
                 className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md"
               >
