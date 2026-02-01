@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Scale, ChevronDown, User, LogIn } from 'lucide-react';
-import logo_lawyer from "../assets/logo_lawyer.jpeg";
+import { Menu, X, ChevronDown, User, LogIn } from 'lucide-react';
+import NyayBookerLogo from "./NyayBookerLogo";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,21 +21,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-3 group">
-            <div className="relative">
-              <img
-                src={logo_lawyer}
-                alt="Nyay Booker"
-                className="w-10 h-10 rounded-xl border border-gray-200 group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-md flex items-center justify-center">
-                <Scale className="w-2.5 h-2.5 text-white" />
-              </div>
+          <Link to="/" className="flex items-center gap-2 group hover:opacity-90 transition-opacity">
+            <NyayBookerLogo size={44} className="group-hover:scale-105 transition-transform duration-300" />
+            <div className="hidden sm:flex flex-col">
+              <span className="text-lg font-bold text-[#0c1f3f] leading-tight">
+                Nyay<span className="text-[#cfa052]">Booker</span>
+              </span>
+              <span className="text-[10px] text-gray-500 font-medium tracking-wide">
+                Elite Legal Appointments
+              </span>
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent hidden sm:block">
-              NYAY BOOKER
-            </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-1">
@@ -100,6 +96,7 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
+
 
           <div className="pt-4 border-t border-gray-200 space-y-2">
             <Link

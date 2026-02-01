@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Mail, Lock, User, Scale, ShieldCheck, ArrowRight, Eye, EyeOff, Sparkles } from 'lucide-react';
 
 const Login = () => {
-  const [state, setState] = useState("User");
+  const [state, setState] = useState("Admin");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
