@@ -55,8 +55,8 @@ const Signup = () => {
             <div className="flex items-center gap-4 mb-4">
               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=lawyer1" alt="User" className="w-12 h-12 rounded-full border-2 border-white/20" />
               <div>
-                <p className="font-semibold text-white">Sarah Johnson</p>
-                <p className="text-sm text-slate-400">Business Owner</p>
+                <p className="font-semibold text-white">Nyay Booker</p>
+                <p className="text-sm text-slate-400">Legal Platform</p>
               </div>
             </div>
             <p className="text-slate-300 italic">"Nyay Booker made finding the right lawyer so easy. The whole process was seamless and professional."</p>
