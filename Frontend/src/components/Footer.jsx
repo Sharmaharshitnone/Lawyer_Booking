@@ -1,96 +1,59 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
-
-const faqs = [
-  {
-    question: "WHAT IS NYAY BOOKER?",
-    answer: "Nyay Booker is a premier legal platform that connects you with expert lawyers instantly. Whether you need a quick Online Consultation or want to Pre-Book a Chamber Visit to meet a lawyer offline, Nyay Booker makes legal help accessible, fast, and secure."
-  },
-  {
-    question: "ARE THE LAWYERS VERIFIED?",
-    answer: "Quality is our priority. We strictly onboard advocates who are enrolled with the Bar Council and have a proven track record. Every lawyer’s credentials are manually verified before they go live on Nyay Booker."
-  },
-  {
-    question: "DO I NEED TO PAY IN ADVANCE FOR AN OFFICE VISIT?",
-    answer: "Yes, a booking fee is required to confirm your slot. This guarantees that the lawyer reserves that specific time exclusively for you, ensuring you meet them immediately upon arrival without waiting."
-  },
-  {
-    question: "WHAT IS YOUR REFUND POLICY IF THE LAWYER DOESN'T SHOW UP?",
-    answer: "We value your time. If a lawyer misses a scheduled appointment (Online or Offline), we offer a 'No-Questions-Asked' full refund or an immediate priority rescheduling with a senior expert."
-  },
-  {
-    question: "IS MY DATA AND CASE INFORMATION PRIVATE?",
-    answer: "Absolutely. We adhere to strict Attorney-Client Privilege standards. Your discussions are end-to-end encrypted, and no case details are shared with third parties without your consent."
-  }
-];
 
 const Footer = () => {
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFaq = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <footer className="bg-slate-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Left Section */}
-          <div>
-            <h2 className="text-3xl font-bold mb-2">Questions?</h2>
-            <h3 className="text-xl text-slate-300 mb-4">We're here to help</h3>
-            <p className="text-slate-400 mb-8 max-w-md">
-              Check out our FAQs or talk to a live customer care specialist
-              by phone, chat, or email.
+    <footer className="bg-white dark:bg-black text-[#86868B] dark:text-gray-500 pt-20 pb-12 border-t border-gray-200 dark:border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-4 gap-12 mb-12">
+          {/* Brand Column */}
+          <div className="col-span-1 lg:col-span-1">
+            <span className="font-bold text-xl tracking-tight text-[#1D1D1F] dark:text-white">NyayBooker</span>
+            <p className="mt-4 text-xs leading-relaxed max-w-xs font-light">
+              The modern standard for legal appointments. Connecting you with justice, efficiently and securely.
             </p>
-
-            <div className="flex gap-4">
-              <Link to="/contact" className="p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
-                <Phone className="w-5 h-5 text-blue-400" />
-              </Link>
-              <Link to="/contact" className="p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
-                <Mail className="w-5 h-5 text-blue-400" />
-              </Link>
-              <Link to="/contact" className="p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors">
-                <MessageCircle className="w-5 h-5 text-blue-400" />
-              </Link>
-            </div>
           </div>
 
-          {/* Right Section (FAQs) */}
-          <div className="space-y-3">
-            {faqs.map((item, index) => (
-              <div
-                key={index}
-                className="bg-slate-800 rounded-lg overflow-hidden"
-              >
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-700/50 transition-colors"
-                >
-                  <span className="text-sm font-medium text-slate-200">{item.question}</span>
-                  {openIndex === index ? (
-                    <ChevronUp className="w-5 h-5 text-slate-400" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400" />
-                  )}
-                </button>
+          {/* Platform Links */}
+          <div>
+            <h4 className="font-semibold text-[#1D1D1F] dark:text-white mb-4 text-sm">Platform</h4>
+            <ul className="space-y-3 text-xs">
+              <li><Link className="hover:text-[#0071e3] transition" to="/lawyers">Find Lawyers</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/about">How it Works</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/pricing">Pricing</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/login">Login</Link></li>
+            </ul>
+          </div>
 
-                {openIndex === index && (
-                  <div className="px-4 pb-4 text-sm text-slate-400 leading-relaxed">
-                    {item.answer}
-                  </div>
-                )}
-              </div>
-            ))}
+          {/* Legal Links */}
+          <div>
+            <h4 className="font-semibold text-[#1D1D1F] dark:text-white mb-4 text-sm">Legal</h4>
+            <ul className="space-y-3 text-xs">
+              <li><Link className="hover:text-[#0071e3] transition" to="/privacy">Privacy Policy</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/terms">Terms of Service</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/cookies">Cookie Policy</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Links */}
+          <div>
+            <h4 className="font-semibold text-[#1D1D1F] dark:text-white mb-4 text-sm">Support</h4>
+            <ul className="space-y-3 text-xs">
+              <li><Link className="hover:text-[#0071e3] transition" to="/help">Help Center</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/contact">Contact Us</Link></li>
+              <li><Link className="hover:text-[#0071e3] transition" to="/faqs">FAQs</Link></li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      {/* Copyright Section */}
-      <div className="border-t border-slate-800 py-6 text-center text-sm text-slate-500">
-        © 2026 All Rights Reserved.
+        {/* Bottom Section */}
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px]">
+          <p>© 2026 NyayBooker. All Rights Reserved.</p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <a className="hover:text-[#1D1D1F] dark:hover:text-white transition" href="#">Twitter</a>
+            <a className="hover:text-[#1D1D1F] dark:hover:text-white transition" href="#">LinkedIn</a>
+            <a className="hover:text-[#1D1D1F] dark:hover:text-white transition" href="#">Instagram</a>
+          </div>
+        </div>
       </div>
     </footer>
   );

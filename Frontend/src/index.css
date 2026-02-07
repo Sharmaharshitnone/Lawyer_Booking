@@ -185,4 +185,47 @@
 
 html {
   font-size: var(--font-size);
+  scroll-behavior: smooth;
+  font-family: 'Inter', sans-serif;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 24
+}
+.apple-gradient-text {
+    background: linear-gradient(135deg, #1D1D1F 0%, #434344 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+}
+.dark .apple-gradient-text {
+    background: linear-gradient(135deg, #FFF 0%, #A1A1A6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+}
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18)
+}
+.dark .glass-panel {
+    background: rgba(28, 28, 30, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05)
+}
+.bento-card {
+    background-size: cover;
+    background-position: center;
+    position: relative
+}
+.bento-overlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    position: absolute;
+    inset: 0
+}
+.hero-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBQb_yr4e8NZ6M729GAE-oni_kYPv22_FEpeJjhJd3ghuLC7NLxJTk_fhelk7iPZTAqTOALmGi5ExmSllsBCb3lE4jzB7GgjiNogHoJd6VNWPMbGWIenlMJv_qJCDI2lAafL2x6pgE9gti-Dh1G-rrycUzgNoc0rTkoxQxI47G0OnYJTeuD5JZJsIZQ5NVFjEXoaZRaxyMDbSG0m79oWbxJ6aqdJH4x4ojJfJOSh6hGS6XtoAsfQThF3dZPZFFtNLDgfbvwldEc0tb_);
+    background-size: cover;
+    background-position: center
 }
