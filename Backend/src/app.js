@@ -22,12 +22,12 @@ import authRoutes from './modules/auth/routes.js';
 import userRoutes from './modules/users/routes.js';
 import lawyerRoutes from './modules/lawyers/routes.js';
 import bookingRoutes from './modules/bookings/routes.js';
+import adminRoutes from './modules/admin/routes.js';
 import paymentRoutes from './modules/payments/routes.js';
 import documentRoutes from './modules/documents/routes.js';
 import reviewRoutes from './modules/reviews/routes.js';
 import notificationRoutes from './modules/notifications/routes.js';
 import analyticsRoutes from './modules/analytics/routes.js';
-import adminRoutes from './modules/admin/routes.js';
 import healthRoutes from './routes/health.js';
 
 /**

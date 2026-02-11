@@ -335,6 +335,79 @@ router.get('/lawyers/pending', asyncHandler(async (req, res) => {
 }));
 
 /**
+ * @route   GET /api/v1/admin/lawyers
+ * @desc    Get all lawyers with filters
+ * @access  Private/Admin
+ */
+router.get('/lawyers', asyncHandler(async (req, res) => {
+    const prisma = getPrismaClient();
+    const { page, limit, skip } = parsePaginationParams(req.query);
+    const { status, search } = req.query;
+
+    const where = {};
+
+    if (status) {
+        where.verificationStatus = status.toUpperCase();
+    }
+
+    if (search) {
+        where.OR = [
+            { user: { firstName: { contains: search, mode: 'insensitive' } } },
+            { user: { lastName: { contains: search, mode: 'insensitive' } } },
+            { user: { email: { contains: search, mode: 'insensitive' } } },
+            { barCouncilId: { contains: search, mode: 'insensitive' } },
+        ];
+    }
+
+    const [lawyers, total] = await Promise.all([
+        prisma.lawyer.findMany({
+            where,
+            skip,
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        firstName: true,
+                        lastName: true,
+                        phone: true,
+                        avatar: true,
+                        createdAt: true,
+                    },
+                },
+                specializations: {
+                    include: {
+                        practiceArea: { select: { name: true } },
+                    },
+                },
+            },
+        }),
+        prisma.lawyer.count({ where }),
+    ]);
+
+    const transformed = lawyers.map(l => ({
+        id: l.id,
+        barCouncilId: l.barCouncilId,
+        verificationStatus: l.verificationStatus,
+        isAvailable: l.isAvailable,
+        hourlyRate: l.hourlyRate,
+        experience: l.experience,
+        rating: l.rating,
+        totalReviews: l.totalReviews,
+        totalBookings: l.totalBookings,
+        completedBookings: l.completedBookings,
+        user: l.user,
+        specializations: l.specializations.map(s => s.practiceArea.name),
+        createdAt: l.createdAt,
+        verifiedAt: l.verifiedAt,
+    }));
+
+    return sendPaginated(res, { data: { lawyers: transformed }, total, page, limit });
+}));
+
+/**
  * @route   PUT /api/v1/admin/lawyers/:id/verify
  * @desc    Verify or reject lawyer
  * @access  Private/Admin
