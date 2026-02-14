@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
     Star, MapPin, Briefcase, Clock, Phone, Mail, Award, Languages,
     Calendar, ChevronRight, Heart, Share2, CheckCircle, GraduationCap
@@ -15,10 +15,13 @@ import { useAuth } from '../../context/AuthContext';
 export default function LawyerProfilePage() {
     const { id } = useParams();
     const { user, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [lawyer, setLawyer] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('about');
+    const [shareMsg, setShareMsg] = useState('');
 
     useEffect(() => {
         async function fetchLawyer() {
@@ -39,7 +42,10 @@ export default function LawyerProfilePage() {
     }, [id, user, isAuthenticated]);
 
     const toggleFavorite = async () => {
-        if (!isAuthenticated) return;
+        if (!isAuthenticated) {
+            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+            return;
+        }
         try {
             if (isFavorite) {
                 await favoritesAPI.remove(user.id, id);
@@ -49,6 +55,25 @@ export default function LawyerProfilePage() {
             setIsFavorite(!isFavorite);
         } catch (error) {
             console.error('Error toggling favorite:', error);
+        }
+    };
+
+    const handleShare = async () => {
+        const url = window.location.href;
+        try {
+            await navigator.clipboard.writeText(url);
+            setShareMsg('Link copied!');
+            setTimeout(() => setShareMsg(''), 2000);
+        } catch {
+            // Fallback
+            const input = document.createElement('input');
+            input.value = url;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            setShareMsg('Link copied!');
+            setTimeout(() => setShareMsg(''), 2000);
         }
     };
 
@@ -89,8 +114,13 @@ export default function LawyerProfilePage() {
                                     <button onClick={toggleFavorite} className={`p-3 rounded-full transition-colors ${isFavorite ? 'bg-red-500 text-white' : 'bg-white/10 hover:bg-white/20'}`}>
                                         <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                                     </button>
-                                    <button className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                                    <button onClick={handleShare} className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors relative">
                                         <Share2 className="w-5 h-5" />
+                                        {shareMsg && (
+                                            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-green-600 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                                {shareMsg}
+                                            </span>
+                                        )}
                                     </button>
                                 </div>
                             </div>

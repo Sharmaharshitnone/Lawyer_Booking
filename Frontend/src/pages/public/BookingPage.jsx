@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Calendar, Clock, ChevronLeft, ChevronRight, Video, MapPin, CreditCard, CheckCircle } from 'lucide-react';
 import { lawyerAPI, appointmentAPI } from '../../services/api';
-import { generateTimeSlots } from '../../services/mockData';
 import { useAuth } from '../../context/AuthContext';
 
 const CONSULTATION_TYPES = [
@@ -55,9 +54,22 @@ export default function BookingPage() {
     }, [id]);
 
     useEffect(() => {
-        if (booking.date) {
-            const slots = generateTimeSlots(booking.date, id);
-            setTimeSlots(slots);
+        if (booking.date && id) {
+            (async () => {
+                try {
+                    const res = await lawyerAPI.getAvailability(id, booking.date);
+                    const data = res.data || res;
+                    const rawSlots = data.slots || [];
+                    setTimeSlots(rawSlots.map(s => ({
+                        time: s.time,
+                        available: true,
+                        duration: s.duration || 60,
+                    })));
+                } catch (err) {
+                    console.error('Error fetching availability:', err);
+                    setTimeSlots([]);
+                }
+            })();
         }
     }, [booking.date, id]);
 
@@ -67,7 +79,7 @@ export default function BookingPage() {
 
     const handleSubmit = async () => {
         if (!isAuthenticated) {
-            navigate('/login');
+            navigate(`/login?redirect=${encodeURIComponent(`/book/${id}`)}`);
             return;
         }
 
@@ -75,16 +87,17 @@ export default function BookingPage() {
         try {
             await appointmentAPI.create({
                 lawyerId: id,
-                userId: user.id,
-                date: booking.date,
-                time: booking.time,
-                type: booking.type,
-                notes: booking.notes,
-                caseType: 'General Consultation'
+                scheduledDate: booking.date,
+                scheduledTime: booking.time,
+                meetingType: booking.type === 'video' ? 'VIDEO' : 'IN_PERSON',
+                duration: 60,
+                clientNotes: booking.notes,
+                amount: lawyer.consultationFee || lawyer.hourlyRate || 0,
             });
             setSuccess(true);
         } catch (error) {
             console.error('Error creating appointment:', error);
+            alert(error.response?.data?.message || 'Booking failed. Please try again.');
         } finally {
             setSubmitting(false);
         }
@@ -210,7 +223,7 @@ export default function BookingPage() {
                                                     disabled={!slot.available}
                                                     onClick={() => setBooking({ ...booking, time: slot.time })}
                                                     className={`py-2.5 rounded-lg text-sm font-medium transition-all ${!slot.available ? 'bg-gray-100 text-gray-400 cursor-not-allowed' :
-                                                            booking.time === slot.time ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                        booking.time === slot.time ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                                         }`}
                                                 >
                                                     {slot.time}

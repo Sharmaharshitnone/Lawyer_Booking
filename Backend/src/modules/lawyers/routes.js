@@ -341,6 +341,7 @@ router.get('/:slugOrId', optionalAuth, asyncHandler(async (req, res) => {
             headline: true,
             experience: true,
             hourlyRate: true,
+            consultationFee: true,
             currency: true,
             city: true,
             state: true,
@@ -361,6 +362,8 @@ router.get('/:slugOrId', optionalAuth, asyncHandler(async (req, res) => {
                     firstName: true,
                     lastName: true,
                     avatar: true,
+                    email: true,
+                    phone: true,
                     isEmailVerified: true,
                 },
             },
@@ -430,6 +433,7 @@ router.get('/:slugOrId', optionalAuth, asyncHandler(async (req, res) => {
         description: lawyer.headline,
         experience: lawyer.experience,
         hourlyRate: lawyer.hourlyRate,
+        consultationFee: parseFloat(lawyer.consultationFee) || parseFloat(lawyer.hourlyRate) || 0,
         avgCostPerCase: lawyer.hourlyRate,
         currency: lawyer.currency,
         location: lawyer.city && lawyer.state ? `${lawyer.city}, ${lawyer.state}` : lawyer.city || lawyer.state,
@@ -439,6 +443,8 @@ router.get('/:slugOrId', optionalAuth, asyncHandler(async (req, res) => {
         barCouncilState: lawyer.barCouncilState,
         enrollmentYear: lawyer.enrollmentYear,
         languages: lawyer.languages,
+        email: lawyer.user.email,
+        phone: lawyer.user.phone,
         rating: lawyer.averageRating ? Math.round(lawyer.averageRating * 10) / 10 : 0,
         averageRating: lawyer.averageRating,
         totalReviews: lawyer.totalReviews,
@@ -546,7 +552,7 @@ router.put('/profile', authenticate, requireVerifiedLawyer, asyncHandler(async (
     const prisma = getPrismaClient();
     const {
         firstName, lastName, phone, // User fields
-        bio, headline, hourlyRate, city, state, address, availability, languages, experience, // Lawyer fields
+        bio, headline, hourlyRate, consultationFee, city, state, address, availability, languages, experience, // Lawyer fields
         specializations // Array of practice area names or slugs
     } = req.body;
 
@@ -571,6 +577,7 @@ router.put('/profile', authenticate, requireVerifiedLawyer, asyncHandler(async (
                 bio: bio !== undefined ? bio : undefined,
                 headline: headline !== undefined ? headline : undefined,
                 hourlyRate: hourlyRate !== undefined ? hourlyRate : undefined,
+                consultationFee: consultationFee !== undefined ? consultationFee : undefined,
                 city: city !== undefined ? city : undefined,
                 state: state !== undefined ? state : undefined,
                 address: address !== undefined ? address : undefined,

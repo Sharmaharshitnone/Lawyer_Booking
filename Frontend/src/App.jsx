@@ -15,6 +15,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
+import { SocketProvider } from "./context/SocketContext";
 import Layout from "./layouts/Layout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardRedirect from "./components/DashboardRedirect";
@@ -91,6 +92,9 @@ const UserCases = lazy(() => import("./pages/user/UserCases"));
 const UserPayments = lazy(() => import("./pages/user/UserPayments"));
 const UserNotifications = lazy(() => import("./pages/user/UserNotifications"));
 const UserSettings = lazy(() => import("./pages/user/UserSettings"));
+const ChatPage = lazy(() => import("./pages/chat/ChatPage"));
+const CaseDetail = lazy(() => import("./pages/cases/CaseDetail"));
+const CreateCase = lazy(() => import("./pages/cases/CreateCase"));
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ADMIN DASHBOARD PAGES
@@ -108,7 +112,9 @@ const LawyerManagement = lazy(() => import("./pages/admin/LawyerManagement"));
 function RootLayout() {
   return (
     <AuthProvider>
-      <Outlet />
+      <SocketProvider>
+        <Outlet />
+      </SocketProvider>
     </AuthProvider>
   );
 }
@@ -169,6 +175,8 @@ const router = createBrowserRouter([
           { path: "analytics", element: withSuspense(LawyerAnalytics) },
           { path: "documents", element: withSuspense(LawyerDocuments) },
           { path: "availability", element: withSuspense(LawyerAvailability) },
+          { path: "chat", element: withSuspense(ChatPage) },
+          { path: "cases/:id", element: withSuspense(CaseDetail) },
         ],
       },
 
@@ -187,6 +195,9 @@ const router = createBrowserRouter([
           { path: "payments", element: withSuspense(UserPayments) },
           { path: "notifications", element: withSuspense(UserNotifications) },
           { path: "settings", element: withSuspense(UserSettings) },
+          { path: "chat", element: withSuspense(ChatPage) },
+          { path: "cases/:id", element: withSuspense(CaseDetail) },
+          { path: "create-case", element: withSuspense(CreateCase) },
         ],
       },
 
