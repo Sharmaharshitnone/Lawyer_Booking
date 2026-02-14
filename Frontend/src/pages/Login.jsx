@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { Mail, Lock, ArrowRight, Eye, EyeOff, Sparkles, AlertCircle, Scale, ShieldCheck } from 'lucide-react';
 import { LOGIN_ROLES } from '../constants/roles';
@@ -8,6 +8,8 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
   const { login, googleLogin, error: authError } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
 
   const [state, setState] = useState("User");
   const [showPassword, setShowPassword] = useState(false);
@@ -30,14 +32,19 @@ const Login = () => {
       const result = await login(loginEmail, password);
 
       if (result.success) {
-        // Navigate based on role
-        const userRole = result.user.role;
-        if (userRole === "ADMIN") {
-          navigate("/admin");
-        } else if (userRole === "LAWYER") {
-          navigate("/lawyer");
+        // Check for redirect param first
+        if (redirectTo) {
+          navigate(redirectTo);
         } else {
-          navigate("/user");
+          // Navigate based on role
+          const userRole = result.user.role;
+          if (userRole === "ADMIN") {
+            navigate("/admin");
+          } else if (userRole === "LAWYER") {
+            navigate("/lawyer");
+          } else {
+            navigate("/user");
+          }
         }
       } else {
         setError(result.error || "Login failed. Please check your credentials.");
@@ -57,11 +64,15 @@ const Login = () => {
       const result = await googleLogin(credentialResponse.credential);
 
       if (result.success) {
-        const userRole = result.user.role;
-        if (userRole === "LAWYER") {
-          navigate("/lawyer");
+        if (redirectTo) {
+          navigate(redirectTo);
         } else {
-          navigate("/user");
+          const userRole = result.user.role;
+          if (userRole === "LAWYER") {
+            navigate("/lawyer");
+          } else {
+            navigate("/user");
+          }
         }
       } else {
         setError(result.error || "Google login failed.");

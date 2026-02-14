@@ -81,6 +81,41 @@ enum NotificationType {
   SYSTEM
 }
 
+enum CaseStatus {
+  OPEN
+  IN_PROGRESS
+  PENDING_DOCS
+  UNDER_REVIEW
+  CLOSED
+  RESOLVED
+}
+
+enum CasePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum MessageType {
+  TEXT
+  FILE
+  IMAGE
+  SYSTEM
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  STATUS_CHANGE
+  DOCUMENT_ADDED
+  DOCUMENT_REMOVED
+  MESSAGE_SENT
+  PAYMENT_MADE
+  ASSIGNED
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // USER MODEL
 // ═══════════════════════════════════════════════════════════════════════════
@@ -120,6 +155,10 @@ model User {
   documents           Document[]
   notifications       Notification[]
   refreshTokens       RefreshToken[]
+  casesAsClient       Case[]     @relation("ClientCases")
+  messages            Message[]
+  auditLogs           AuditLog[]
+  savedLawyers        SavedLawyer[]
   
   @@index([email])
   @@index([role])
@@ -148,6 +187,7 @@ model Lawyer {
   
   // Pricing
   hourlyRate          Decimal             @default(0) @map("hourly_rate") @db.Decimal(10, 2)
+  consultationFee     Decimal             @default(0) @map("consultation_fee") @db.Decimal(10, 2)
   currency            String              @default("INR")
   
   // Location
@@ -188,6 +228,8 @@ model Lawyer {
   qualifications      Qualification[]
   bookings            Booking[]           @relation("LawyerBookings")
   reviews             Review[]            @relation("ReviewSubject")
+  cases               Case[]
+  savedBy             SavedLawyer[]
   
   @@index([barCouncilId])
   @@index([verificationStatus])
@@ -323,6 +365,7 @@ model Booking {
   lawyer              Lawyer        @relation("LawyerBookings", fields: [lawyerId], references: [id])
   payment             Payment?
   review              Review?
+  case                Case?
   
   @@index([clientId])
   @@index([lawyerId])
@@ -433,6 +476,7 @@ model Review {
 model Document {
   id                  String        @id @default(uuid())
   userId              String        @map("user_id")
+  caseId              String?       @map("case_id")
   
   // File Information
   name                String
@@ -460,8 +504,10 @@ model Document {
   
   // Relations
   user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case                Case?         @relation(fields: [caseId], references: [id])
   
   @@index([userId])
+  @@index([caseId])
   @@index([type])
   @@index([createdAt])
   @@map("documents")
@@ -572,4 +618,135 @@ model EmailVerificationToken {
   @@index([email])
   @@index([token])
   @@map("email_verification_tokens")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CASE MODEL
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Case {
+  id                  String       @id @default(uuid())
+  caseNumber          String       @unique @map("case_number")
+  
+  // Details
+  title               String
+  description         String?      @db.Text
+  status              CaseStatus   @default(OPEN)
+  priority            CasePriority @default(MEDIUM)
+  
+  // Participants
+  clientId            String       @map("client_id")
+  lawyerId            String       @map("lawyer_id")
+  
+  // Optional booking origin
+  bookingId           String?      @unique @map("booking_id")
+  
+  // Timestamps
+  createdAt           DateTime     @default(now()) @map("created_at")
+  updatedAt           DateTime     @updatedAt @map("updated_at")
+  closedAt            DateTime?    @map("closed_at")
+  
+  // Relations
+  client              User         @relation("ClientCases", fields: [clientId], references: [id])
+  lawyer              Lawyer       @relation(fields: [lawyerId], references: [id])
+  booking             Booking?     @relation(fields: [bookingId], references: [id])
+  documents           Document[]
+  messages            Message[]
+  auditLogs           AuditLog[]
+  
+  @@index([clientId])
+  @@index([lawyerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("cases")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MESSAGE MODEL (Chat)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Message {
+  id                  String      @id @default(uuid())
+  
+  // Content
+  content             String      @db.Text
+  type                MessageType @default(TEXT)
+  attachmentUrl       String?     @map("attachment_url")
+  
+  // Sender
+  senderId            String      @map("sender_id")
+  
+  // Belongs to a case
+  caseId              String      @map("case_id")
+  
+  // Read status
+  isRead              Boolean     @default(false) @map("is_read")
+  readAt              DateTime?   @map("read_at")
+  
+  // Timestamps
+  createdAt           DateTime    @default(now()) @map("created_at")
+  
+  // Relations
+  sender              User        @relation(fields: [senderId], references: [id])
+  case                Case        @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  
+  @@index([caseId])
+  @@index([senderId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AUDIT LOG MODEL (History Tracking)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model AuditLog {
+  id                  String      @id @default(uuid())
+  
+  // What happened
+  action              AuditAction
+  entityType          String      @map("entity_type")  // 'Case', 'Document', etc.
+  entityId            String      @map("entity_id")
+  
+  // Who did it
+  userId              String      @map("user_id")
+  
+  // Optional case association
+  caseId              String?     @map("case_id")
+  
+  // Change details (JSON diff or description)
+  details             Json?
+  
+  // Timestamps
+  createdAt           DateTime    @default(now()) @map("created_at")
+  
+  // Relations
+  user                User        @relation(fields: [userId], references: [id])
+  case                Case?       @relation(fields: [caseId], references: [id])
+  
+  @@index([entityType, entityId])
+  @@index([caseId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SAVED LAWYER MODEL (User Favorites)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model SavedLawyer {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  lawyerId  String   @map("lawyer_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lawyer    Lawyer @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lawyerId])
+  @@index([userId])
+  @@index([lawyerId])
+  @@map("saved_lawyers")
 }

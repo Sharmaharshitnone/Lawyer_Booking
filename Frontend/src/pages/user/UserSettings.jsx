@@ -3,33 +3,62 @@
  * Premium design with better form styling and sections
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { User, Mail, Phone, MapPin, Save, Bell, Shield, CheckCircle, Camera } from 'lucide-react';
+import { userAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
 export default function UserSettings() {
-    const { user } = useAuth();
-    const [profile, setProfile] = useState({
-        name: user?.name || '',
-        email: user?.email || '',
-        phone: user?.phone || '',
-        location: user?.location || ''
-    });
-    const [notifications, setNotifications] = useState({
-        email: true,
-        sms: true,
-        appointments: true,
-        promotions: false
-    });
+    const { user, getFullUserData } = useAuth();
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState({ type: '', text: '' });
+
+    const [profile, setProfile] = useState({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        location: '',
+        email: '',
+    });
+
+    const [notifications, setNotifications] = useState({
+        emailBooking: true,
+        emailReminder: true,
+        emailPromo: false,
+        sms: false, // UI placeholder, not yet supported by backend
+    });
+
+    useEffect(() => {
+        if (user) {
+            setProfile({
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                phone: user.phone || '',
+                location: user.location || '',
+                email: user.email || '',
+            });
+        }
+    }, [user]);
 
     const handleSave = async () => {
         setSaving(true);
-        await new Promise(r => setTimeout(r, 500));
-        setMessage('Settings saved successfully!');
-        setSaving(false);
-        setTimeout(() => setMessage(''), 3000);
+        setMessage({ type: '', text: '' });
+        try {
+            await userAPI.updateProfile({
+                firstName: profile.firstName,
+                lastName: profile.lastName,
+                phone: profile.phone,
+                location: profile.location,
+            });
+            // Refresh auth context with updated user data
+            if (getFullUserData) await getFullUserData();
+            setMessage({ type: 'success', text: 'Profile updated successfully!' });
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            setMessage({ type: 'error', text: 'Failed to save changes. Please try again.' });
+        } finally {
+            setSaving(false);
+        }
     };
 
     const ToggleSwitch = ({ checked, onChange }) => (
@@ -56,10 +85,10 @@ export default function UserSettings() {
             </div>
 
             {/* Success Message */}
-            {message && (
-                <div className="flex items-center gap-3 p-4 rounded-2xl bg-green-50 text-green-800 border border-green-200">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <p className="font-medium">{message}</p>
+            {message.text && (
+                <div className={`flex items-center gap-3 p-4 rounded-2xl border ${message.type === 'success' ? 'bg-green-50 text-green-800 border-green-200' : 'bg-red-50 text-red-800 border-red-200'}`}>
+                    <CheckCircle className={`w-5 h-5 ${message.type === 'success' ? 'text-green-500' : 'text-red-500'}`} />
+                    <p className="font-medium">{message.text}</p>
                 </div>
             )}
 
@@ -95,16 +124,23 @@ export default function UserSettings() {
                     <h3 className="font-semibold text-gray-900">Profile Information</h3>
                 </div>
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
-                        <input type="text" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm transition-shadow" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
+                            <input type="text" value={profile.firstName} onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm transition-shadow" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
+                            <input type="text" value={profile.lastName} onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm transition-shadow" />
+                        </div>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
                         <div className="relative">
                             <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                            <input type="email" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })} className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm transition-shadow" />
+                            <input type="email" value={profile.email} disabled className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-500 cursor-not-allowed outline-none text-sm" />
                         </div>
+                        <p className="mt-1.5 text-xs text-gray-400">Email cannot be changed here</p>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
@@ -133,10 +169,10 @@ export default function UserSettings() {
                 </div>
                 <div className="space-y-1">
                     {[
-                        { key: 'email', label: 'Email notifications', desc: 'Receive updates via email' },
+                        { key: 'emailBooking', label: 'Booking confirmations', desc: 'Receive updates via email' },
                         { key: 'sms', label: 'SMS notifications', desc: 'Get text message alerts' },
-                        { key: 'appointments', label: 'Appointment reminders', desc: 'Never miss a consultation' },
-                        { key: 'promotions', label: 'Promotional emails', desc: 'Deals and offers' }
+                        { key: 'emailReminder', label: 'Appointment reminders', desc: 'Never miss a consultation' },
+                        { key: 'emailPromo', label: 'Promotional emails', desc: 'Deals and offers' }
                     ].map(item => (
                         <div key={item.key} className="flex items-center justify-between p-3.5 rounded-xl hover:bg-gray-50 transition-colors">
                             <div>

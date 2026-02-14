@@ -28,6 +28,9 @@ import documentRoutes from './modules/documents/routes.js';
 import reviewRoutes from './modules/reviews/routes.js';
 import notificationRoutes from './modules/notifications/routes.js';
 import analyticsRoutes from './modules/analytics/routes.js';
+import caseRoutes from './modules/cases/routes.js';
+import chatRoutes from './modules/chat/routes.js';
+import auditRoutes from './modules/audit/routes.js';
 import healthRoutes from './routes/health.js';
 
 /**
@@ -113,6 +116,9 @@ export function createApp() {
     app.use(`${apiPrefix}/reviews`, reviewRoutes);
     app.use(`${apiPrefix}/notifications`, notificationRoutes);
     app.use(`${apiPrefix}/analytics`, analyticsRoutes);
+    app.use(`${apiPrefix}/cases`, caseRoutes);
+    app.use(`${apiPrefix}/chat`, chatRoutes);
+    app.use(`${apiPrefix}/audit`, auditRoutes);
     app.use(`${apiPrefix}/admin`, adminRoutes);
 
     // API info endpoint
@@ -132,6 +138,9 @@ export function createApp() {
                 reviews: `${apiPrefix}/reviews`,
                 notifications: `${apiPrefix}/notifications`,
                 analytics: `${apiPrefix}/analytics`,
+                cases: `${apiPrefix}/cases`,
+                chat: `${apiPrefix}/chat`,
+                audit: `${apiPrefix}/audit`,
                 admin: `${apiPrefix}/admin`,
             },
         });

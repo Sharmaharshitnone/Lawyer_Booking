@@ -16,6 +16,7 @@ import { NotFoundError, ForbiddenError, BookingError } from '../../utils/errors.
 import { generateBookingNumber } from '../../utils/crypto.js';
 import { sendBookingConfirmationEmail, sendBookingCancellationEmail } from '../../utils/email.js';
 import { parsePaginationParams } from '../../utils/pagination.js';
+import { createNotification } from '../notifications/routes.js';
 import logger from '../../utils/logger.js';
 
 const router = Router();
@@ -109,6 +110,33 @@ router.post('/', authenticate, asyncHandler(async (req, res) => {
         clientId: req.user.id,
         lawyerId,
     });
+
+    // Send confirmation email to client (fire-and-forget)
+    const lawyerName = `${lawyer.user.firstName} ${lawyer.user.lastName}`;
+    sendBookingConfirmationEmail({
+        to: req.user.email,
+        booking: {
+            id: booking.id,
+            bookingNumber: booking.bookingNumber,
+            lawyerName,
+            scheduledDate: booking.scheduledDate,
+            scheduledTime: booking.scheduledTime,
+            duration: booking.duration,
+            meetingType: booking.meetingType,
+            amount: parseFloat(booking.amount),
+        },
+    }).catch(err => logger.error('Failed to send booking confirmation email', err));
+
+    // Create in-app notification for lawyer
+    createNotification({
+        userId: lawyer.userId,
+        type: 'BOOKING_CREATED',
+        title: 'New Booking Request',
+        message: `You have a new consultation booking for ${new Date(scheduledDate).toLocaleDateString()} at ${scheduledTime}.`,
+        actionUrl: '/lawyer/appointments',
+        actionLabel: 'View Appointments',
+        metadata: { bookingId: booking.id, clientId: req.user.id },
+    }).catch(err => logger.error('Failed to create booking notification', err));
 
     return sendCreated(res, {
         booking: {
@@ -394,6 +422,17 @@ router.put('/:id/confirm', authenticate, requireVerifiedLawyer, asyncHandler(asy
         },
     }).catch(e => logger.error('Failed to send confirmation email', e));
 
+    // Notify client in-app
+    createNotification({
+        userId: booking.clientId,
+        type: 'BOOKING_CONFIRMED',
+        title: 'Booking Confirmed',
+        message: `Your consultation on ${booking.scheduledDate.toLocaleDateString()} at ${booking.scheduledTime} has been confirmed.`,
+        actionUrl: '/user/appointments',
+        actionLabel: 'View Appointments',
+        metadata: { bookingId: booking.id },
+    }).catch(e => logger.error('Failed to create confirm notification', e));
+
     logger.logBusiness('BOOKING_CONFIRMED', { bookingId: booking.id });
 
     return sendSuccess(res, {
@@ -457,6 +496,18 @@ router.put('/:id/cancel', authenticate, asyncHandler(async (req, res) => {
         },
         reason,
     }).catch(e => logger.error('Failed to send cancellation email', e));
+
+    // Notify the other party in-app
+    const notifyUserId = isClient ? booking.lawyer.user.id : booking.clientId;
+    createNotification({
+        userId: notifyUserId,
+        type: 'BOOKING_CANCELLED',
+        title: 'Booking Cancelled',
+        message: `Booking #${booking.bookingNumber} for ${booking.scheduledDate.toLocaleDateString()} has been cancelled.${reason ? ` Reason: ${reason}` : ''}`,
+        actionUrl: isClient ? '/lawyer/appointments' : '/user/appointments',
+        actionLabel: 'View Appointments',
+        metadata: { bookingId: booking.id, cancelledBy: req.user.id },
+    }).catch(e => logger.error('Failed to create cancel notification', e));
 
     logger.logBusiness('BOOKING_CANCELLED', {
         bookingId: booking.id,
