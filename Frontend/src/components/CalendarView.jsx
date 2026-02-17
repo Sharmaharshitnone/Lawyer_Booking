@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function CalendarView({ selectedDate, onDateChange }) {
+export default function CalendarView({ selectedDate, onDateChange, blockedDates = [] }) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
     useEffect(() => {
@@ -58,18 +58,24 @@ export default function CalendarView({ selectedDate, onDateChange }) {
             // Compare just date parts for "today" highlight
             const today = new Date();
             const isToday = today.getDate() === day &&
-                            today.getMonth() === month &&
-                            today.getFullYear() === year;
+                today.getMonth() === month &&
+                today.getFullYear() === year;
+
+            // Format date for blocked dates check
+            // Use local date string to match backend format (YYYY-MM-DD)
+            const dateStr = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
+            const isBlocked = blockedDates.includes(dateStr);
 
             days.push(
                 <button
                     key={day}
-                    onClick={() => onDateChange(date)}
+                    onClick={() => !isBlocked && onDateChange(date)}
+                    disabled={isBlocked}
                     className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-medium transition-all
                         ${isSelected
                             ? 'bg-blue-600 text-white shadow-md'
-                            : 'hover:bg-gray-100 text-gray-700'}
-                        ${isToday && !isSelected ? 'text-blue-600 font-bold bg-blue-50 ring-1 ring-blue-100' : ''}
+                            : isBlocked ? 'bg-gray-100 text-gray-300 cursor-not-allowed decoration-slice' : 'hover:bg-gray-100 text-gray-700'}
+                        ${isToday && !isSelected && !isBlocked ? 'text-blue-600 font-bold bg-blue-50 ring-1 ring-blue-100' : ''}
                     `}
                 >
                     {day}

@@ -53,7 +53,7 @@ export default function BookingPage() {
         const date = new Date();
         date.setDate(date.getDate() + i);
         return formatDateLocal(date);
-    });
+    }).filter(date => !lawyer?.blockedDates?.includes(date));
 
     useEffect(() => {
         async function fetchLawyer() {

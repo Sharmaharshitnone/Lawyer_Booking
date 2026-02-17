@@ -614,6 +614,7 @@ router.get('/:id/availability', asyncHandler(async (req, res) => {
         select: {
             id: true,
             availability: true,
+            blockedDates: true,
             isAvailable: true,
         },
     });
@@ -624,6 +625,12 @@ router.get('/:id/availability', asyncHandler(async (req, res) => {
 
     if (!lawyer.isAvailable) {
         return sendSuccess(res, { data: { slots: [], message: 'Lawyer is not available' } });
+    }
+
+    // Check for blocked dates
+    const requestedDateStr = date || new Date().toISOString().split('T')[0];
+    if (lawyer.blockedDates && lawyer.blockedDates.includes(requestedDateStr)) {
+        return sendSuccess(res, { data: { slots: [], message: 'Lawyer is unavailable on this date' } });
     }
 
     // Get existing bookings for the date
@@ -719,7 +726,7 @@ router.put('/profile', authenticate, asyncHandler(async (req, res) => {
 
     const {
         firstName, lastName, phone, // User fields
-        bio, headline, hourlyRate, consultationFee, city, state, address, availability, languages, experience, // Lawyer fields
+        bio, headline, hourlyRate, consultationFee, city, state, address, availability, blockedDates, languages, experience, // Lawyer fields
         specializations // Array of practice area names or slugs
     } = req.body;
 
@@ -749,6 +756,7 @@ router.put('/profile', authenticate, asyncHandler(async (req, res) => {
                 state: state !== undefined ? state : undefined,
                 address: address !== undefined ? address : undefined,
                 availability: availability !== undefined ? availability : undefined,
+                blockedDates: blockedDates !== undefined ? blockedDates : undefined,
                 languages: languages !== undefined ? languages : undefined,
                 experience: experience !== undefined ? parseInt(experience) : undefined,
             },

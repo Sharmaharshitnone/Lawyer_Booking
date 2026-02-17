@@ -99,6 +99,7 @@ export const lawyerAPI = {
             experience: data.experience,
             specializations: data.specialty, // Array of specialty names
             availability: data.availability,
+            blockedDates: data.blockedDates,
         };
 
         const response = await apiClient.put('/lawyers/profile', payload);

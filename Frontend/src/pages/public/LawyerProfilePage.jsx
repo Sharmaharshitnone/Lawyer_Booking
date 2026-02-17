@@ -463,6 +463,7 @@ export default function LawyerProfilePage() {
                                         setSelectedDate(date);
                                         setSelectedTime(null);
                                     }}
+                                    blockedDates={lawyer.blockedDates}
                                 />
                             </div>
 
